@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="emp">
+<!-- crud -->
+<!--
+<select id=""></select>
+-->
+	<!--
+		ArrayList<EmpVO> list - ...
+		
+		PreparedStatement pt = 
+					con.prepareStatement("select * from employee");
+		ResultSet rs = pt.executeQuery();
+		while(rs.next()) {
+			EmpVO vo = new EmpVO();
+			vo.setSeq(rs.getInt("seq"));
+			.....
+			list.add(vo);
+		}
+		return list  
+	-->
+	<select id="all_emp" resultType="emp">
+		select * from employees
+	</select>
+	
+	<select id="one_emp" resultType="emp" parameterType="int">
+		select * from employees where employee_id=#{a}
+	</select>
+	
+	<select id="name_emp" resultType="emp" parameterType="String">
+		select * from employees where first_name=#{a}
+	</select>
+	
+	<select id="namelike_emp" resultType="emp" parameterType="String">
+		select * from employees where first_name LIKE #{a}||'%'
+	</select>
+	
+	<!-- <![CDATA[~~~]] : 부등호 등을 인식하도록 -->
+	<select id="idemp" resultType="emp" parameterType="int">
+		<![CDATA[select employee_id, first_name, 
+		to_char(hire_date, 'yy/mm/dd dd:mi:ss') as hire_date
+		from employees where employee_id<#{a} ]]>
+	</select>
+<!-- 	
+<insert id="">
+ -->
+	<insert id="newemp" parameterType="emp">
+		insert into employees(employee_id, last_name, first_name, hire_date, email, job_id)
+		 values(#{employee_id}, #{last_name}, #{first_name}, sysdate, #{email}, #{job_id})
+	</insert>
+<!-- 
+<update id="">
+ -->
+	<update id="updateemp" parameterType="emp">
+		update employees 
+		set first_name=#{first_name}, last_name=#{last_name}, email=#{email} 
+		where employee_id=#{employee_id} 
+	</update>	
+<!-- 
+<delete id="">
+ -->
+	<delete id="deleteemp" parameterType="int">
+		delete employees where employee_id=#{id}
+	</delete>
+	
+	<!-- ============================================
+	// Sub Query	// board exam
+	select r, first, hire from
+  		(select rownum r, first, hire from
+    		(select * from employees order by hire_date desc) )
+	where r>=11 and r<=20;
+	============================================= -->
+	<select id="pagingemp" resultType="emp" parameterType="int[]">
+		<![CDATA[
+		select r, employee_id, first_name, last_name, hire_date from 
+			(select rownum r, employee_id, first_name, last_name, hire_date from  
+				(select * from employees order by hire_date desc)) 
+		where r>= #{array[0]} and r <=#{array[1]} ]]>
+	</select>
+	
+	<select id="cntemp" resultType="int" >
+		select count(*) from employees
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<bean id="vo" class="empSpring.EmpVO" >
+	<property name="name" value="김사원" />
+	<property name="salary" value="10000" />
+	<property name="deptname" value="교육부" />
+</bean>
+
+<bean id="dao" class="empSpring.EmpDAO" >
+	<property name="vo" ref="vo" />
+</bean>
+
+	<!-- property	value : 정수, 숫자 	-->
+	<!-- 			ref : 객체 id			-->
+
+</beans>

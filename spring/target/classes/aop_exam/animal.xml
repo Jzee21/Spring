@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+<!-- 
+<context:component-scan base-package="aop_exam"></context:component-scan>
+
+<aop:aspectj-autoproxy />
+-->
+
+<bean id="cat" class="aop_exam.Cat" />
+<bean id="dog" class="aop_exam.Dog" />
+<bean id="rabbit" class="aop_exam.Rabbit" />
+<bean id="common" class="aop_exam.Common" />
+
+<aop:config>
+	<aop:pointcut expression="execution (public * aop_exam.*.*(..))" id="ani"/>
+	<aop:aspect id="aspect_ani" ref="common">
+		<!-- 
+		<aop:around method="around" pointcut-ref="ani"/>
+		 -->
+		<aop:before method="before" pointcut-ref="ani"/>
+		<aop:after-returning method="after" returning="ret" pointcut-ref="ani"/>
+	</aop:aspect>
+</aop:config>
+
+</beans>

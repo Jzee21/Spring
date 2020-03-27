@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- 1. DataSource 생성 -->
+<!--
+	DriverManagerDataSource dataSource = 
+		new DriverManagerDataSource();
+	dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver")
+-->
+<!-- <environments default="mydb"> -->
+	<!-- 
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="username" value="hr"></property>
+		<property name="password" value="hr"></property>
+	</bean>
+	 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="username" value="SCOTT"></property>
+		<property name="password" value="TIGER"></property>
+	</bean>
+
+<!-- 2. Mapper, Mybatis config file info -->
+<!-- <mappers>
+		<mapper resource="mybatis/emp-mapping.xml"/> -->
+	<!-- 
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/edu/multi/mybatis/mybatis-config.xml" />
+		<property name="mapperLocations" value="classpath:/edu/multi/mybatis/emp-mapping.xml" />
+	</bean>
+	 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/edu/multi/member/mybatis-config.xml" />
+		<property name="mapperLocations" value="classpath:/edu/multi/member/member-mapping.xml" />
+	</bean>
+
+<!-- 3. SqlSessionTemplate (Spring API) 생성 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+</beans>
