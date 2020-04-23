@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<select id="freeboardlist" resultType="board">
+		select * from board where form='free'
+	</select>
+	
+	<select id="noticeboardlist" resultType="board">
+		select * from board where form='notice'
+	</select>
+	
+	<select id="detailboard" resultType="board" parameterType="int">
+		select * from board where board_no = #{board_no}
+	</select>
+	
+	<update id="updateviewcnt" parameterType="int">
+		update board set viewcnt = viewcnt + 1 where board_no = #{board_no}
+	</update>
+	
+	<update id="updateboard" parameterType="board">
+		update board set title = #{title}, contents = #{contents} where board_no = #{board_no}
+	</update>
+	
+	<insert id="insertboard" parameterType="board">
+		insert into board values(board_seq.nextval, #{title}, #{contents}, #{member_id}, #{form}, 0, sysdate)
+	</insert>
+	
+	<delete id="deleteboard" parameterType="int">
+		delete board where board_no = #{board_no}
+	</delete>
+</mapper>
